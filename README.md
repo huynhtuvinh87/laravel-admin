@@ -1,6 +1,6 @@
 # Larawind - Laravel 10.0+ Jetstream and Tailwind CSS Admin Theme
 
-This project is created with [Laravel Jetstream](https://jetstream.laravel.com/1.x/introduction.html) Framework and [Tailwind CSS](https://tailwindcss.com), the admin environment is desing by [Windmill Dashboard](https://windmill-dashboard.vercel.app/).
+This project is created with [Laravel Jetstream](https://jetstream.laravel.com/1.x/introduction.html) Framework and [Tailwind CSS](https://tailwindcss.com)
 
 ## Requirements
 
@@ -12,10 +12,10 @@ This project is created with [Laravel Jetstream](https://jetstream.laravel.com/1
 
 ```
 # Clone the repository from GitHub and open the directory:
-git clone https://github.com/miten5/larawind.git
+git clone https://github.com/huynhtuvinh87/laravel-admin.git
 
 # cd into your project directory
-cd larawind
+cd laravel-admin
 
 #install composer and npm packages
 composer install
@@ -31,11 +31,3 @@ php artisan storage:link
 php artisan serve
 
 ```
-
-If you like my work [Buy me a coffee](https://www.buymeacoffee.com/miten5)
-
-### Project made possible thanks to:
-
--   [Laravel Jetstream](https://jetstream.laravel.com/1.x/introduction.html)
--   [Tailwind CSS](https://tailwindcss.com/)
--   [Windmill Dashboard](https://windmill-dashboard.vercel.app/)
