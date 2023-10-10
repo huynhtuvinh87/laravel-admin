@@ -11,35 +11,21 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-
+    <script src="https://cdn.tailwindcss.com"></script>
     <!-- Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/tailwind.output.css') }}" />
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <script src="{{ asset('js/focus-trap.js') }}" defer></script>
     <script src="{{ asset('js/init-alpine.js') }}" defer></script>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script>
-    <script src="{{ asset('js/charts-lines.js') }}" defer></script>
-    <script src="{{ asset('js/charts-pie.js') }}" defer></script>
-    <script src="{{ asset('js/charts-bars.js') }}" defer></script>
+    <script src="/js/libs/tinymce/tinymce.min.js"></script>
 
     @livewireStyles
-    {{-- <script>
-        import Turbolinks from 'turbolinks';
-        Turbolinks.start()
-    </script> --}}
-
-    <!-- Scripts -->
-    {{-- <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.6.0/dist/alpine.js" defer></script> --}}
 </head>
 
 <body>
     <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
         @include('layouts.menu')
-        @include('layouts.mobile-menu')
-
         <div class="flex flex-col flex-1 w-full">
             @include('layouts.navigation-dropdown')
             <main class="h-full overflow-y-auto">
@@ -50,6 +36,7 @@
 
         @stack('modals')
         @livewireScripts
+        @stack('scripts')
     </div>
     <script type="text/javascript">
         window.addEventListener('delete-confirmation', event => {
@@ -132,11 +119,15 @@
             });
         });
 
-        window.addEventListener('showModal', event => {
-            this.isModalOpen = true
-            this.trapCleanup = focusTrap(document.querySelector("[id='modal123']"))
-
-            console.log(122222222222)
+        window.addEventListener('load-tinymce', event => {
+            tinymce.init({
+                selector: '#content',
+                height: '610',
+                plugins: 'quickbars advlist link image lists',
+                //toolbar:'advlist link image lists'
+                toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright alignjustify | lists | indent outdent | image',
+                quickbars_insert_toolbar: false
+            });
         });
     </script>
 </body>

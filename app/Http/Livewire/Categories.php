@@ -4,12 +4,14 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Category;
+use Str;
 
 class Categories extends Component
 {
 
     public $form = false;
     public $category_id;
+    public $parent_id;
     public $title;
     public $slug;
 
@@ -20,24 +22,22 @@ class Categories extends Component
 
     protected $rules = [
         'title' => 'required',
-        'slug' => 'string',
+        'parent_id' => '',
         'status' => ''
     ];
     public function render()
     {
-        $categories = Category::orderBy('created_at', 'DESC')->paginate(10);
+        $categories = Category::with(['children', 'parent'])->whereNull('parent_id')->orderBy('created_at', 'DESC')->get();
+        $parents = Category::select('id', 'title')->whereNull('parent_id')->get();
 
-        return view('livewire.categories', compact('categories'));
+        return view('livewire.categories', compact('categories', 'parents'));
     }
 
     public function switch($type)
     {
         if ($type === 1) {
             $this->form = true;
-            $this->category_id = null;
-            $this->title = null;
-            $this->slug = null;
-            $this->status = 1;
+            $this->resetInput();
         } else
             $this->form = false;
     }
@@ -63,13 +63,26 @@ class Categories extends Component
             $category = $model;
             $event = 'created';
         }
+        $category->parent_id = $data['parent_id'];
         $category->title = $data['title'];
-        $category->slug = $data['slug'];
-        $category->status = $data['status'];
+        $category->slug = Str::slug($data['title']);
+        $category->status = $data['status'] ?? 1;
         $category->save();
+        if (!$this->category_id)
+            $this->resetInput();
 
         $this->dispatchBrowserEvent($event);
     }
+
+    public function resetInput()
+    {
+        $this->category_id = null;
+        $this->parent_id = null;
+        $this->title = null;
+        $this->slug = null;
+        $this->status = 1;
+    }
+
 
     /**
      * The attributes that are mass assignable.
